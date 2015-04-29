@@ -4,13 +4,15 @@
 // @description This script enables Desktop Notifications for pyLoad Captchas in Firefox. Note: This app is in pre-alpha state. Do not use it unless you know exactly what you are doing.
 // @match       http://localhost:8000/*
 // @match       http://localhost:8001/*
-// @version     0.1
+// @version     0.1.1a
+// @downloadURL https://raw.githubusercontent.com/x0b/pdn/master/pdn.user.js
+// @updateURL   https://raw.githubusercontent.com/x0b/pdn/master/pdn.meta.js
 // @run-at      document-end
 // @grant       none
 // ==/UserScript==
 
 
-var SERVER = "localhost:8001";
+var SERVER = "localhost:8000";
 var FREQUENCY = 5000;
 var DONOTDISTURB = 10000;
 var ENABLEDEBUG = false;
@@ -51,9 +53,16 @@ setTimeout(function(){setup();}, 1000);
 
 //POWERUP
 function setup(){
+   determineURL();
    testEnvironment();
    requestPermissions();
    captchaTest();
+}
+
+function determineURL() {
+   var surl = window.location.href;
+   SERVER = window.location.protocol + "//" + window.location.host;
+   debugLog("PDN: ServerURL has been recognized as: " + SERVER);
 }
 
 // Environment test will probably need more tests
@@ -90,7 +99,7 @@ function requestPermissions() {
 function pyStatus(){
    var http = new XMLHttpRequest();
 
-   var url = "http://" + SERVER + "/json/status";
+   var url = SERVER + "/json/status";
    http.open("POST", url, true);
    var params;
    //headers
@@ -133,6 +142,8 @@ function notifCapAvail() {
 //GET TO PYLOAD, OPEN CAPTHA WINDOW
 //cap_info: id of element
 function letMeSolveIt() {
-    document.getElementById("cap_info").click();
+    cbtn = document.getElementById("cap_info");
+    cbtn.scrollIntoView();
+    cbtn.click();
     nWait = nWait + DONOTDISTURB;
 }
