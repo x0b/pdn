@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name        pyLoad Desktop Notifications
+// @namespace   https://github.com/x0b/pdn#master
 // @description This script enables Desktop Notifications for pyLoad Captchas in Firefox. Note: This app is in pre-alpha state. Do not use it unless you know exactly what you are doing.
 // @match       http://localhost:8000/*
 // @match       http://localhost:8001/*
@@ -12,9 +13,11 @@
 var SERVER = "localhost:8001";
 var FREQUENCY = 5000;
 var DONOTDISTURB = 10000;
+var ENABLEDEBUG = false;
 
 //initialize variables
 var nWait = 0;
+//var sessionToken;
 var notifSupport;
 var pyStatData;
 
